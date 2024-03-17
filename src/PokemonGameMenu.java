@@ -12,22 +12,37 @@ public class PokemonGameMenu extends JFrame {
     public PokemonGameMenu() {
         setTitle("Pokemon Game Menu");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(300, 200);
+        setSize(500, 400);
         setLocationRelativeTo(null); // Center the window
-    
-        // Username input
-        String input = JOptionPane.showInputDialog(this, "Enter your username:");
-        String passput = JOptionPane.showInputDialog(this, "Enter your password:");
-        if (input == null || input.trim().isEmpty() || passput == null || passput.trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Enter Username And Password next time. Exiting...");
-            System.exit(0);
-        }
-        username = input.trim(); // Trim the username
-        password = passput.trim(); // Trim the password
-        con = new db(); // Initialize the database connection object
-        con.insertUser(username, password); // Insert user into the database
-    
-        // Create buttons
+        int lg = -1;
+        do{
+            JTextField usernameField = new JTextField();
+            JPasswordField passwordField = new JPasswordField();
+            Object[] message = {
+                "Username:", usernameField,
+                "Password:", passwordField
+            };
+            int option = JOptionPane.showConfirmDialog(this, message, "Login", JOptionPane.OK_CANCEL_OPTION);
+            if (option != JOptionPane.OK_OPTION) {
+                JOptionPane.showMessageDialog(this, "Login canceled.", "Warning", JOptionPane.WARNING_MESSAGE);
+                
+            }
+            username = usernameField.getText().trim();
+            char[] passwordChars = passwordField.getPassword();
+            password = new String(passwordChars).trim();
+            if (username.isEmpty() || password.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Enter both username and password.", "Warning", JOptionPane.WARNING_MESSAGE);
+                
+            }
+            con = new db(); // Initialize the database connection object
+            lg = con.insertUser(username, password); // Insert user into the database
+            if (lg == -1) {
+                JOptionPane.showMessageDialog(this, "Invalid Username Or Password", "Warning", JOptionPane.WARNING_MESSAGE);
+            }
+            
+        }while(lg<0);
+        
+
         JButton startGameButton = new JButton("Start Game");
         JButton selectPokemonButton = new JButton("Select Pokemon");
         JButton selectProfileButton = new JButton("Profile");
