@@ -42,7 +42,7 @@ public class FriendsGUI extends JFrame {
                     nameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
                     searchUsersPanel.add(nameLabel);
 
-                    JButton addButton = new JButton("Add as Friend");
+                    JButton addButton = new JButton("Challenge");
                     addButton.setAlignmentX(Component.CENTER_ALIGNMENT);
                     addButton.addActionListener(new ActionListener() {
                         @Override
