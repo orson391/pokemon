@@ -106,7 +106,8 @@ public class PokemonGameMenu extends JFrame {
     }
     private void gamefireend() {
         // Add logic to start the game
-        FriendsGUI fireend = new FriendsGUI(username);
+        FriendsGUI fireend = new FriendsGUI(username,con);
+        
         
         System.out.println("Game Fireends: " + username);
     }

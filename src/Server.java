@@ -15,6 +15,7 @@ public class Server {
                 clientHandler.start();
             }
         } catch (IOException e) {
+            
             e.printStackTrace();
         }
     }

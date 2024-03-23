@@ -1,6 +1,7 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.security.MessageDigest;
@@ -66,6 +67,28 @@ public class db {
         return 1;
         
     }
+
+    public int searchUser(String username) {
+        String query = "SELECT * FROM users WHERE username = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, username); // Set the username parameter value
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    String foundUsername = rs.getString("username");
+                    System.out.println("Username found: " + foundUsername);
+                    return 1; // User found
+                } else {
+                    System.out.println("No user found with the username: " + username);
+                    return 0; // No user found
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1; // Error occurred
+    }
+    
+    
     
 
     static String hashPassword(String password) {
