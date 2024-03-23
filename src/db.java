@@ -87,6 +87,48 @@ public class db {
         }
         return -1; // Error occurred
     }
+
+    String ReciveRequest(String u) {
+        String findid = "SELECT user_id FROM users WHERE username = ?";
+        String getid = "SELECT username FROM users WHERE user_id = ?";
+        String receiverRequest = "SELECT sender_id FROM friend_requests WHERE recipient_id = ?";
+        String sendername = null; // Initialize sendername
+        
+        try (PreparedStatement findstmt = conn.prepareStatement(findid)) {
+            findstmt.setString(1, u);
+            try (ResultSet rrs = findstmt.executeQuery()) {
+                if (rrs.next()) {
+                    int foundUserid = rrs.getInt("user_id");
+                    
+                    try (PreparedStatement checkstmt = conn.prepareStatement(receiverRequest)) {
+                        checkstmt.setInt(1, foundUserid);
+                        try (ResultSet rrrs = checkstmt.executeQuery()) {
+                            if (rrrs.next()) {
+                                int senderuserid = rrrs.getInt("sender_id");
+                                
+                                try (PreparedStatement getsenderstmt = conn.prepareStatement(getid)) {
+                                    getsenderstmt.setInt(1, senderuserid);
+                                    try (ResultSet rrrrs = getsenderstmt.executeQuery()) {
+                                        if (rrrrs.next()) {
+                                            sendername = rrrrs.getString("username");
+                                            // Process the sendername if needed
+                                        }
+                                    }
+                                }
+                            } 
+                        }
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception appropriately
+        }
+        
+        return sendername; // Return sender's username or null if no pending friend request is found
+    }
+    
+    
+
     
 
 

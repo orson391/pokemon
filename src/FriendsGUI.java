@@ -83,6 +83,53 @@ public class FriendsGUI extends JFrame {
         tabbedPane.addTab("Search Users", searchUsersPanel);
 
         JPanel friendRequestsPanel = new JPanel();
+
+        String senderName = con.ReciveRequest(u);
+        
+        if (senderName != null) {
+        
+            JLabel nameLabel = new JLabel(senderName + " has sent a friend request");
+            nameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+            friendRequestsPanel.add(nameLabel);
+        
+            JButton acceptButton = new JButton("Accept");
+            acceptButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+            acceptButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    // Implement logic to accept the friend request
+                    // You need to call a method to accept the friend request
+                    //con.acceptFriendRequest(u, senderName);
+                    // After accepting, you might want to remove the UI elements for this request
+                    //friendRequestsPanel.removeAll();
+                    revalidate();
+                    repaint();
+                }
+            });
+            friendRequestsPanel.add(acceptButton);
+        
+            JButton rejectButton = new JButton("Reject");
+            rejectButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+            rejectButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    // Implement logic to reject the friend request
+                    // You need to call a method to reject the friend request
+                    //con.rejectFriendRequest(u, senderName);
+                    // After rejecting, you might want to remove the UI elements for this request
+                    //friendRequestsPanel.removeAll();
+                    revalidate();
+                    repaint();
+                }
+            });
+            friendRequestsPanel.add(rejectButton);
+        
+            revalidate();
+            repaint();
+        }
+
+
+
         // Implement friend requests UI components
         tabbedPane.addTab("Friend Requests", friendRequestsPanel);
 
