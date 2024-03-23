@@ -88,6 +88,53 @@ public class db {
         return -1; // Error occurred
     }
     
+
+
+    int sendRequest(String u, String r) {
+        String senderQuery = "SELECT user_id FROM users WHERE username = ?";
+        String receiverQuery = "SELECT user_id FROM users WHERE username = ?";
+        String insertQuery = "INSERT INTO friend_requests (sender_id, recipient_id) VALUES (?, ?)";
+        
+        try (PreparedStatement senderStmt = conn.prepareStatement(senderQuery);
+             PreparedStatement receiverStmt = conn.prepareStatement(receiverQuery)) {
+            
+            // Set parameters for sender query
+            senderStmt.setString(1, u);
+            try (ResultSet senderRs = senderStmt.executeQuery()) {
+                if (senderRs.next()) {
+                    int senderId = senderRs.getInt("user_id");
+                    
+                    // Set parameters for receiver query
+                    receiverStmt.setString(1, r);
+                    try (ResultSet receiverRs = receiverStmt.executeQuery()) {
+                        if (receiverRs.next()) {
+                            int receiverId = receiverRs.getInt("user_id");
+                            
+                            // Execute insert query
+                            try (PreparedStatement insertStmt = conn.prepareStatement(insertQuery)) {
+                                insertStmt.setInt(1, senderId);
+                                insertStmt.setInt(2, receiverId);
+                                insertStmt.executeUpdate();
+                                System.out.println("Request sent successfully");
+                                return 1; // Request sent successfully
+                            }
+                        } else {
+                            System.out.println("Receiver not found");
+                            return 0; // Receiver not found
+                        }
+                    }
+                } else {
+                    System.out.println("Sender not found");
+                    return 0; // Sender not found
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return -1; // Error occurred
+        }
+    }
+    
+
     
     
 

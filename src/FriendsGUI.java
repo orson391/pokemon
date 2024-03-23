@@ -57,6 +57,8 @@ public class FriendsGUI extends JFrame {
                     requestButton.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
+                            
+                            UserGraph sendRequest = new UserGraph(u,query,con);
                             // Implement logic to send a friend request to the user
                         }
                     });

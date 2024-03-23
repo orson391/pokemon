@@ -4,9 +4,20 @@ public class UserGraph {
     private Map<String, Set<String>> friendships; // Map to store established friendships
     private Map<String, Set<String>> friendRequests; // Map to store pending friend requests
 
-    public UserGraph() {
+    public UserGraph(String u,String r,db con) {
         friendships = new HashMap<>();
         friendRequests = new HashMap<>();
+        int send = sendFriendRequest(u, r);
+        if (send == 1) {
+            int dsend = con.sendRequest(u, r);
+            if (dsend == 1) {
+                System.out.println(u +" Sended Request to " + r);
+                
+            }
+
+
+            
+        }
     }
 
     // Method to add a user to the graph
@@ -18,10 +29,11 @@ public class UserGraph {
     }
 
     // Method to send a friend request from user1 to user2
-    public void sendFriendRequest(String user1, String user2) {
+    public int sendFriendRequest(String user1, String user2) {
         addUser(user1);
         addUser(user2);
         friendRequests.get(user2).add(user1);
+        return 1;
     }
 
     // Method to accept a friend request
@@ -56,24 +68,23 @@ public class UserGraph {
 
     public void gg()
     {
-        UserGraph userGraph = new UserGraph();
+        
 
         // Adding users
-        userGraph.addUser("Alice");
-        userGraph.addUser("Bob");
-        userGraph.addUser("Charlie");
+        
 
         // Sending friend requests
-        userGraph.sendFriendRequest("Alice", "Bob");
-        userGraph.sendFriendRequest("Bob", "Charlie");
+        //userGraph.sendFriendRequest(u, q);
+        //System.out.println("Sended Request to " + q);
+        
 
         // Accepting friend requests
-        userGraph.acceptFriendRequest("Alice", "Bob");
-        userGraph.acceptFriendRequest("Bob", "Charlie");
+        //userGraph.acceptFriendRequest("Alice", "Bob");
+        //userGraph.acceptFriendRequest("Bob", "Charlie");
 
         // Getting friends of a user
-        System.out.println("Friends of Alice: " + userGraph.getFriends("Alice"));
-        System.out.println("Friends of Bob: " + userGraph.getFriends("Bob"));
-        System.out.println("Friends of Charlie: " + userGraph.getFriends("Charlie"));
+        //System.out.println("Friends of Alice: " + userGraph.getFriends("Alice"));
+        //System.out.println("Friends of Bob: " + userGraph.getFriends("Bob"));
+        //System.out.println("Friends of Charlie: " + userGraph.getFriends("Charlie"));
     }
 }
