@@ -42,9 +42,12 @@ public class PokemonGameMenu extends JFrame {
             
         }while(lg<0);
         
+        Client l1 = new Client(username);
+        l1.sendNameToServer();
 
         JButton startGameButton = new JButton("Start Game");
         JButton selectPokemonButton = new JButton("Select Pokemon");
+        JButton selectFireendButton = new JButton("Fireends");
         JButton selectProfileButton = new JButton("Profile");
         JButton quitButton = new JButton("Quit");
     
@@ -52,6 +55,13 @@ public class PokemonGameMenu extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 gameprofile();
+            }
+        });
+
+        selectFireendButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gamefireend();
             }
         });
     
@@ -79,9 +89,10 @@ public class PokemonGameMenu extends JFrame {
     
         // Create layout
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(4, 1)); // Changed to accommodate the Profile button
+        panel.setLayout(new GridLayout(5, 1)); // Changed to accommodate the Profile button
         panel.add(startGameButton);
         panel.add(selectPokemonButton);
+        panel.add(selectFireendButton);
         panel.add(selectProfileButton); // Added the Profile button
         panel.add(quitButton);
     
@@ -92,6 +103,12 @@ public class PokemonGameMenu extends JFrame {
     private void gameprofile() {
         // Add logic to start the game
         System.out.println("Game Profile: " + username);
+    }
+    private void gamefireend() {
+        // Add logic to start the game
+        FriendsGUI fireend = new FriendsGUI(username);
+        
+        System.out.println("Game Fireends: " + username);
     }
 
     private void startGame() {
