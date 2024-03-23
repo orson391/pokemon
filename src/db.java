@@ -33,7 +33,7 @@ public class db {
         }
     
         try (PreparedStatement checkStatement = conn.prepareStatement("SELECT * FROM users WHERE username=?");
-             PreparedStatement insertStatement = conn.prepareStatement("INSERT INTO users (username, password_hash) VALUES (?, ?)")) {
+            PreparedStatement insertStatement = conn.prepareStatement("INSERT INTO users (username, password_hash) VALUES (?, ?)")) {
     
             // Check if the username already exists
             checkStatement.setString(1, username);
